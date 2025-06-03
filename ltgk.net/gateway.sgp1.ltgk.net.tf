@@ -36,14 +36,13 @@ resource "digitalocean_droplet" "gateway-sgp1" {
         - echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
         - iptables -t nat -A POSTROUTING -s ${digitalocean_vpc.vpc-ltgk-internal-sgp1.ip_range} -o eth0 -j MASQUERADE
         - iptables-save > /etc/iptables/rules.v4
-        - iptables-save > /etc/iptables/rules.v6
   EOF
 
   provisioner "remote-exec" {
     inline = [
-      "cloud-init status --wait  > /dev/null 2>&1",
-      "[ $? -ne 0 ] && echo 'Cloud-init failed' && exit 1",
-      "cloud-init clean --reboot --logs"
+      "set -e",
+      "cloud-init status --wait > /dev/null",
+      # "cloud-init clean --reboot --logs"
     ]
   }
 }
