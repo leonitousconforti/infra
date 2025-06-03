@@ -22,7 +22,7 @@ jobs:
         with:
           path: ${{ matrix.path }}
           variables: |
-            porkbun_api_key = "${{ secrets.PORKBUN_API_KEY }}"
+            porkbun_api_key    = "${{ secrets.PORKBUN_API_KEY }}"
             porkbun_secret_key = "${{ secrets.PORKBUN_SECRET_KEY }}"
 
   fmt-check:
