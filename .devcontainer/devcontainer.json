@@ -1,0 +1,61 @@
+// spell-checker: disable
+{
+    "name": "infra",
+    "image": "mcr.microsoft.com/devcontainers/base:bookworm",
+
+    "features": {
+        "ghcr.io/devcontainers/features/git:1": {},
+        "ghcr.io/devcontainers/features/terraform:1": {},
+        "ghcr.io/devcontainers/features/common-utils:2": {}
+    },
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "dbaeumer.vscode-eslint",
+                "visualstudioexptteam.vscodeintellicode",
+                "esbenp.prettier-vscode",
+                "editorconfig.editorconfig",
+                "streetsidesoftware.code-spell-checker",
+                "eamodio.gitlens",
+                "mutantdino.resourcemonitor",
+                "redhat.vscode-yaml"
+            ],
+            "settings": {
+                "cSpell.enabled": true,
+                "editor.formatOnSave": true,
+                "editor.formatOnPaste": true,
+                "editor.bracketPairColorization.enabled": true,
+                "editor.defaultFormatter": "EditorConfig.EditorConfig",
+                "[json][jsonc]": {
+                    "editor.defaultFormatter": "esbenp.prettier-vscode"
+                },
+                "[yaml]": {
+                    "editor.tabSize": 2,
+                    "editor.insertSpaces": true,
+                    "editor.autoIndent": "advanced",
+                    "editor.defaultFormatter": "redhat.vscode-yaml"
+                },
+                "[terraform]": {
+                    "editor.tabSize": 2,
+                    "editor.insertSpaces": true,
+                    "editor.autoIndent": "advanced",
+                    "editor.defaultFormatter": "hashicorp.terraform"
+                },
+                "files.associations": { "*.json": "jsonc" },
+                "editor.acceptSuggestionOnCommitCharacter": true,
+                "editor.acceptSuggestionOnEnter": "on",
+                "editor.quickSuggestionsDelay": 10,
+                "editor.suggestOnTriggerCharacters": true,
+                "editor.tabCompletion": "off",
+                "editor.suggest.localityBonus": true,
+                "editor.suggestSelection": "recentlyUsed",
+                "editor.wordBasedSuggestions": "matchingDocuments",
+                "editor.parameterHints.enabled": true
+            }
+        }
+    },
+
+    "remoteUser": "vscode",
+    "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}"
+}
