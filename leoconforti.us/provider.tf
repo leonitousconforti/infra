@@ -4,6 +4,11 @@ terraform {
       source  = "jianyuan/porkbun"
       version = "0.1.0"
     }
+
+    digitalocean = {
+      source  = "digitalocean/digitalocean"
+      version = "~> 2.0"
+    }
   }
 
   backend "s3" {
@@ -37,4 +42,13 @@ variable "porkbun_secret_key" {
 provider "porkbun" {
   api_key    = var.porkbun_api_key
   secret_key = var.porkbun_secret_key
+}
+
+variable "do_token" {
+  sensitive   = true
+  description = "The API token for your DigitalOcean account"
+}
+
+provider "digitalocean" {
+  token = var.do_token
 }

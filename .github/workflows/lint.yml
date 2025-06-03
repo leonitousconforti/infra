@@ -25,6 +25,7 @@ jobs:
         with:
           path: ${{ matrix.path }}
           variables: |
+            do_token           = "${{ secrets.DO_ACCESS_TOKEN }}"
             porkbun_api_key    = "${{ secrets.PORKBUN_API_KEY }}"
             porkbun_secret_key = "${{ secrets.PORKBUN_SECRET_KEY }}"
 
@@ -47,5 +48,6 @@ jobs:
         with:
           path: ${{ matrix.path }}
           variables: |
+            do_token           = "${{ secrets.DO_ACCESS_TOKEN }}"
             porkbun_api_key    = "${{ secrets.PORKBUN_API_KEY }}"
             porkbun_secret_key = "${{ secrets.PORKBUN_SECRET_KEY }}"
