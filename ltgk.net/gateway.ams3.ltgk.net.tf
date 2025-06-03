@@ -41,7 +41,9 @@ resource "digitalocean_droplet" "gateway-ams3" {
 
   provisioner "remote-exec" {
     inline = [
-      "cloud-init status --wait",
+      "cloud-init status --wait  > /dev/null 2>&1",
+      "[ $? -ne 0 ] && echo 'Cloud-init failed' && exit 1",
+      "cloud-init clean --reboot --logs"
     ]
   }
 }
