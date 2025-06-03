@@ -2,6 +2,13 @@ resource "digitalocean_domain" "leoconforti_us" {
   name = "leoconforti.us"
 }
 
+resource "digitalocean_project_resources" "leoconforti_us_project" {
+  project = data.digitalocean_project.project.id
+  resources = [
+    digitalocean_domain.leoconforti_us.id,
+  ]
+}
+
 resource "digitalocean_record" "ns1" {
   domain = digitalocean_domain.leoconforti_us.name
   type   = "NS"

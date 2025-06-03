@@ -11,6 +11,7 @@
         "porkbun",
         "terraformrc",
         "tfstate",
-        "tfvars"
+        "tfvars",
+        "vcpu"
     ]
 }

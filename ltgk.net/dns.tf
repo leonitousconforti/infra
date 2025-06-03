@@ -2,6 +2,13 @@ resource "digitalocean_domain" "ltgk_net" {
   name = "ltgk.net"
 }
 
+resource "digitalocean_project_resources" "ltgk_net_project" {
+  project = data.digitalocean_project.project.id
+  resources = [
+    digitalocean_domain.ltgk_net.id,
+  ]
+}
+
 resource "digitalocean_record" "ns1" {
   domain = digitalocean_domain.ltgk_net.name
   type   = "NS"
