@@ -1,3 +1,29 @@
+data "cloudinit_config" "gateway-ams3-cloud-init-config" {
+  gzip          = false
+  base64_encode = false
+
+  part {
+    content_type = "text/cloud-config"
+    filename     = "cloud.conf"
+    content = yamlencode(
+      {
+        package_update  = true,
+        package_upgrade = true,
+        packages = [
+          "wireguard",
+          "iptables-persistent"
+        ],
+        runcmd = [
+          "sysctl -w net.ipv4.ip_forward=1",
+          "echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf",
+          "iptables -t nat -A POSTROUTING -s ${digitalocean_vpc.vpc-ltgk-internal-ams3.ip_range} -o eth0 -j MASQUERADE",
+          "iptables-save > /etc/iptables/rules.v4"
+        ]
+      }
+    )
+  }
+}
+
 resource "digitalocean_droplet" "gateway-ams3" {
   count  = 1
   region = "ams3"
@@ -11,6 +37,7 @@ resource "digitalocean_droplet" "gateway-ams3" {
   tags          = ["gateway"]
   ssh_keys      = [data.digitalocean_ssh_key.personal.id]
   vpc_uuid      = digitalocean_vpc.vpc-ltgk-internal-ams3.id
+  user_data     = data.cloudinit_config.gateway-ams3-cloud-init-config.rendered
 
   depends_on = [
     time_sleep.wait-30-seconds-to-destroy-vpcs
@@ -24,20 +51,6 @@ resource "digitalocean_droplet" "gateway-ams3" {
     host    = self.ipv4_address
     port    = 22
   }
-
-  user_data = <<EOF
-    #cloud-config
-    package_update: true
-    package_upgrade: true
-    packages:
-        - wireguard
-        - iptables-persistent
-    runcmd:
-        - sysctl -w net.ipv4.ip_forward=1
-        - echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
-        - iptables -t nat -A POSTROUTING -s ${digitalocean_vpc.vpc-ltgk-internal-ams3.ip_range} -o eth0 -j MASQUERADE
-        - iptables-save > /etc/iptables/rules.v4
-  EOF
 
   provisioner "remote-exec" {
     inline = [
