@@ -2,7 +2,7 @@ resource "digitalocean_domain" "ltgk_net" {
   name = "ltgk.net"
 }
 
-resource "digitalocean_project_resources" "ltgk_net_project" {
+resource "digitalocean_project_resources" "ltgk_net_domain_project_assignment" {
   project = data.digitalocean_project.project.id
   resources = [
     digitalocean_domain.ltgk_net.urn,
