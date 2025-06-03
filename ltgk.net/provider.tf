@@ -8,10 +8,12 @@ terraform {
 }
 
 variable "porkbun_api_key" {
+  sensitive   = true
   description = "The API key for your Porkbun account"
 }
 
 variable "porkbun_secret_key" {
+  sensitive   = true
   description = "The SECRET key for your Porkbun account"
 }
 
