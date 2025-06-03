@@ -28,13 +28,13 @@ resource "digitalocean_vpc" "vpc-ltgk-internal-sgp1" {
   depends_on = [data.digitalocean_vpc.vpc-default-sgp1]
 }
 
-resource "time_sleep" "wait-60-seconds-to-destroy-vpcs" {
+resource "time_sleep" "wait-30-seconds-to-destroy-vpcs" {
   depends_on = [
     digitalocean_vpc.vpc-ltgk-internal-sfo3,
     digitalocean_vpc.vpc-ltgk-internal-ams3,
     digitalocean_vpc.vpc-ltgk-internal-sgp1
   ]
-  destroy_duration = "60s"
+  destroy_duration = "30s"
 }
 
 resource "digitalocean_vpc_peering" "vpc-peering-ltgk-internal-sfo3-and-ams3" {
