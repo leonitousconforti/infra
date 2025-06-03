@@ -1,4 +1,4 @@
-resource "digitalocean_droplet" "gateway_sfo3" {
+resource "digitalocean_droplet" "gateway-sfo3" {
   count  = 1
   region = "sfo3"
   image  = "ubuntu-24-04-x64"
@@ -10,7 +10,7 @@ resource "digitalocean_droplet" "gateway_sfo3" {
   droplet_agent = true
   tags          = ["gateway"]
   ssh_keys      = [data.digitalocean_ssh_key.personal.id]
-  vpc_uuid      = data.digitalocean_vpc.ltgk-internal-sfo3.id
+  vpc_uuid      = digitalocean_vpc.vpc-ltgk-internal-sfo3.id
 
   connection {
     timeout = "2m"
@@ -30,7 +30,7 @@ resource "digitalocean_droplet" "gateway_sfo3" {
       "DEBIAN_FRONTEND=noninteractive apt-get install -y wireguard",
       "sysctl -w net.ipv4.ip_forward=1",
       "echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf",
-      "iptables -t nat -A POSTROUTING -s ${data.digitalocean_vpc.ltgk-internal-sfo3.ip_range} -o eth0 -j MASQUERADE",
+      "iptables -t nat -A POSTROUTING -s ${digitalocean_vpc.vpc-ltgk-internal-sfo3.ip_range} -o eth0 -j MASQUERADE",
       "DEBIAN_FRONTEND=noninteractive apt-get install -y iptables-persistent",
       "iptables-save > /etc/iptables/rules.v4",
       "iptables-save > /etc/iptables/rules.v6",
@@ -38,30 +38,30 @@ resource "digitalocean_droplet" "gateway_sfo3" {
   }
 }
 
-resource "digitalocean_project_resources" "ltgk_net_project_sfo3_gateway" {
+resource "digitalocean_project_resources" "gateway-sfo3-project-assignment" {
   project = data.digitalocean_project.project.id
   resources = [
-    digitalocean_droplet.gateway_sfo3[0].urn,
+    digitalocean_droplet.gateway-sfo3[0].urn,
   ]
 }
 
-resource "digitalocean_reserved_ip" "gateway_sfo3_reserved_ip" {
-  region     = digitalocean_droplet.gateway_sfo3[0].region
-  droplet_id = digitalocean_droplet.gateway_sfo3[0].id
+resource "digitalocean_reserved_ip" "gateway-sfo3-reserved-ip" {
+  region     = digitalocean_droplet.gateway-sfo3[0].region
+  droplet_id = digitalocean_droplet.gateway-sfo3[0].id
 }
 
-resource "digitalocean_record" "gateway_sfo3_A_record" {
+resource "digitalocean_record" "gateway-sfo3-A-record" {
   domain = digitalocean_domain.ltgk_net.name
   name   = "gateway.sfo3"
   type   = "A"
-  value  = digitalocean_reserved_ip.gateway_sfo3_reserved_ip.ip_address
+  value  = digitalocean_reserved_ip.gateway-sfo3-reserved-ip.ip_address
   ttl    = 3600
 }
 
-resource "digitalocean_record" "gateway_sfo3_AAAA_record" {
+resource "digitalocean_record" "gateway-sfo3-AAAA-record" {
   domain = digitalocean_domain.ltgk_net.name
   name   = "gateway.sfo3"
   type   = "AAAA"
-  value  = digitalocean_droplet.gateway_sfo3[0].ipv6_address
+  value  = digitalocean_droplet.gateway-sfo3[0].ipv6_address
   ttl    = 3600
 }
