@@ -9,6 +9,7 @@ permissions:
 jobs:
   plan:
     strategy:
+      fail-fast: false
       matrix:
         path: ["leo69.lol", "leoconforti.us", "ltgk.net", "ltgk.page"]
     runs-on: ubuntu-latest
