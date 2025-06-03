@@ -12,6 +12,10 @@ resource "digitalocean_droplet" "gateway-sfo3" {
   ssh_keys      = [data.digitalocean_ssh_key.personal.id]
   vpc_uuid      = digitalocean_vpc.vpc-ltgk-internal-sfo3.id
 
+  depends_on = [
+    time_sleep.wait-60-seconds-to-destroy-vpcs
+  ]
+
   connection {
     timeout = "2m"
     type    = "ssh"
@@ -20,19 +24,24 @@ resource "digitalocean_droplet" "gateway-sfo3" {
     host    = self.ipv4_address
   }
 
+  user_data = <<EOF
+    #cloud-config
+    package_update: true
+    package_upgrade: true
+    packages:
+        - wireguard
+        - iptables-persistent
+    runcmd:
+        - sysctl -w net.ipv4.ip_forward=1
+        - echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf
+        - iptables -t nat -A POSTROUTING -s ${digitalocean_vpc.vpc-ltgk-internal-sfo3.ip_range} -o eth0 -j MASQUERADE
+        - iptables-save > /etc/iptables/rules.v4
+        - iptables-save > /etc/iptables/rules.v6
+  EOF
+
   provisioner "remote-exec" {
     inline = [
-      "set -eu",
-      "export IFS=$'\n\t'",
-      "while pgrep -x apt > /dev/null; do sleep 1; done;",
-      "DEBIAN_FRONTEND=noninteractive apt-get update",
-      "DEBIAN_FRONTEND=noninteractive apt-get upgrade -y",
-      "sysctl -w net.ipv4.ip_forward=1",
-      "echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf",
-      "iptables -t nat -A POSTROUTING -s ${digitalocean_vpc.vpc-ltgk-internal-sfo3.ip_range} -o eth0 -j MASQUERADE",
-      "DEBIAN_FRONTEND=noninteractive apt-get install -y iptables-persistent",
-      "iptables-save > /etc/iptables/rules.v4",
-      "iptables-save > /etc/iptables/rules.v6",
+      "cloud-init status --wait",
     ]
   }
 }

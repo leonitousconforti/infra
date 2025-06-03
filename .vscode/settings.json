@@ -13,6 +13,7 @@
         "pipefail",
         "porkbun",
         "POSTROUTING",
+        "runcmd",
         "terraformrc",
         "tfstate",
         "tfvars",
