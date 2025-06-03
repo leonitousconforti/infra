@@ -4,6 +4,8 @@
         "dflook",
         "dmarc",
         "domainkey",
+        "firewalld",
+        "freeipa",
         "jianyuan",
         "leoconforti",
         "Leonitous",

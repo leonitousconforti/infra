@@ -22,6 +22,7 @@ resource "digitalocean_droplet" "gateway-ams3" {
     user    = "root"
     agent   = true
     host    = self.ipv4_address
+    port    = 22
   }
 
   user_data = <<EOF
