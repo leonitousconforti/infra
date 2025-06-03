@@ -14,18 +14,27 @@ resource "digitalocean_vpc" "vpc-ltgk-internal-sfo3" {
   region     = "sfo3"
   name       = "ltgk-internal-sfo3"
   depends_on = [data.digitalocean_vpc.vpc-default-sfo3]
+  timeouts {
+    delete = "1m"
+  }
 }
 
 resource "digitalocean_vpc" "vpc-ltgk-internal-ams3" {
   region     = "ams3"
   name       = "ltgk-internal-ams3"
   depends_on = [data.digitalocean_vpc.vpc-default-ams3]
+  timeouts {
+    delete = "1m"
+  }
 }
 
 resource "digitalocean_vpc" "vpc-ltgk-internal-sgp1" {
   region     = "sgp1"
   name       = "ltgk-internal-sgp1"
   depends_on = [data.digitalocean_vpc.vpc-default-sgp1]
+  timeouts {
+    delete = "1m"
+  }
 }
 
 resource "digitalocean_vpc_peering" "vpc-peering-ltgk-internal-sfo3-and-ams3" {
@@ -33,10 +42,6 @@ resource "digitalocean_vpc_peering" "vpc-peering-ltgk-internal-sfo3-and-ams3" {
   vpc_ids = [
     digitalocean_vpc.vpc-ltgk-internal-sfo3.id,
     digitalocean_vpc.vpc-ltgk-internal-ams3.id
-  ]
-  depends_on = [
-    digitalocean_vpc.vpc-ltgk-internal-sfo3,
-    digitalocean_vpc.vpc-ltgk-internal-ams3
   ]
 }
 
@@ -46,10 +51,6 @@ resource "digitalocean_vpc_peering" "vpc-peering-ltgk-internal-ams3-and-sgp1" {
     digitalocean_vpc.vpc-ltgk-internal-ams3.id,
     digitalocean_vpc.vpc-ltgk-internal-sgp1.id
   ]
-  depends_on = [
-    digitalocean_vpc.vpc-ltgk-internal-ams3,
-    digitalocean_vpc.vpc-ltgk-internal-sgp1
-  ]
 }
 
 resource "digitalocean_vpc_peering" "vpc-peering-ltgk-internal-sgp1-and-sfo3" {
@@ -57,9 +58,5 @@ resource "digitalocean_vpc_peering" "vpc-peering-ltgk-internal-sgp1-and-sfo3" {
   vpc_ids = [
     digitalocean_vpc.vpc-ltgk-internal-sgp1.id,
     digitalocean_vpc.vpc-ltgk-internal-sfo3.id
-  ]
-  depends_on = [
-    digitalocean_vpc.vpc-ltgk-internal-sgp1,
-    digitalocean_vpc.vpc-ltgk-internal-sfo3
   ]
 }

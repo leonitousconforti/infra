@@ -12,10 +12,6 @@ resource "digitalocean_droplet" "gateway-ams3" {
   ssh_keys      = [data.digitalocean_ssh_key.personal.id]
   vpc_uuid      = digitalocean_vpc.vpc-ltgk-internal-ams3.id
 
-  depends_on = [
-    digitalocean_vpc.vpc-ltgk-internal-ams3,
-  ]
-
   connection {
     timeout = "2m"
     type    = "ssh"
