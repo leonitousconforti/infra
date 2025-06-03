@@ -43,3 +43,12 @@ provider "porkbun" {
   api_key    = var.porkbun_api_key
   secret_key = var.porkbun_secret_key
 }
+
+variable "do_token" {
+  sensitive   = true
+  description = "The API token for your DigitalOcean account"
+}
+
+provider "digitalocean" {
+  token = var.do_token
+}
