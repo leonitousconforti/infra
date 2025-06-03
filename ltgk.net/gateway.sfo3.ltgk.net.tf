@@ -13,7 +13,7 @@ resource "digitalocean_droplet" "gateway-sfo3" {
   vpc_uuid      = digitalocean_vpc.vpc-ltgk-internal-sfo3.id
 
   depends_on = [
-    time_sleep.wait-60-seconds-to-destroy-vpcs
+    time_sleep.wait-30-seconds-to-destroy-vpcs
   ]
 
   connection {
