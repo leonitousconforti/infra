@@ -11,7 +11,7 @@ terraform {
       s3 = "https://sfo3.digitaloceanspaces.com"
     }
 
-    bucket = "ltgk"
+    bucket = "ltgk-terraform"
     key    = "leoconforti.us/terraform.tfstate"
 
     # Deactivate a few AWS-specific checks

@@ -12,6 +12,9 @@ jobs:
         path: ["leo69.lol", "leoconforti.us", "ltgk.net", "ltgk.page"]
     runs-on: ubuntu-latest
     name: Check for drift of example terraform configuration
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,6 +26,3 @@ jobs:
           variables: |
             porkbun_api_key    = "${{ secrets.PORKBUN_API_KEY }}"
             porkbun_secret_key = "${{ secrets.PORKBUN_SECRET_KEY }}"
-          backend_config: |
-            AWS_ACCESS_KEY_ID     = "${{ secrets.AWS_ACCESS_KEY_ID }}"
-            AWS_SECRET_ACCESS_KEY = "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
