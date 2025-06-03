@@ -1,0 +1,21 @@
+name: Check for infrastructure drift
+
+on:
+  schedule:
+    - cron: "0 8 * * *"
+
+jobs:
+  check_drift:
+    strategy:
+      matrix:
+        path: ["leo69.lol", "leoconforti.us", "ltgk.net", "ltgk.page"]
+    runs-on: ubuntu-latest
+    name: Check for drift of example terraform configuration
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for drift
+        uses: dflook/terraform-check@v2
+        with:
+          path: ${{ matrix.path }}
