@@ -5,7 +5,7 @@ resource "digitalocean_domain" "leoconforti_us" {
 resource "digitalocean_project_resources" "leoconforti_us_project" {
   project = data.digitalocean_project.project.id
   resources = [
-    digitalocean_domain.leoconforti_us.id,
+    digitalocean_domain.leoconforti_us.urn,
   ]
 }
 
@@ -13,7 +13,7 @@ resource "digitalocean_record" "ns1" {
   domain = digitalocean_domain.leoconforti_us.name
   type   = "NS"
   name   = "leoconforti.us"
-  value  = "ns1.digitalocean.com"
+  value  = "ns1.digitalocean.com."
   ttl    = 1800
 }
 
@@ -21,7 +21,7 @@ resource "digitalocean_record" "ns2" {
   domain = digitalocean_domain.leoconforti_us.name
   type   = "NS"
   name   = "leoconforti.us"
-  value  = "ns2.digitalocean.com"
+  value  = "ns2.digitalocean.com."
   ttl    = 1800
 }
 
@@ -29,8 +29,26 @@ resource "digitalocean_record" "ns3" {
   domain = digitalocean_domain.leoconforti_us.name
   type   = "NS"
   name   = "leoconforti.us"
-  value  = "ns3.digitalocean.com"
+  value  = "ns3.digitalocean.com."
   ttl    = 1800
+}
+
+resource "digitalocean_record" "mx1" {
+  domain   = digitalocean_domain.leoconforti_us.name
+  type     = "MX"
+  name     = "@"
+  value    = "fwd1.porkbun.com."
+  priority = 10
+  ttl      = 600
+}
+
+resource "digitalocean_record" "mx2" {
+  domain   = digitalocean_domain.leoconforti_us.name
+  type     = "MX"
+  name     = "@"
+  value    = "fwd2.porkbun.com."
+  priority = 20
+  ttl      = 600
 }
 
 resource "digitalocean_record" "dmarc" {
@@ -56,22 +74,4 @@ resource "digitalocean_record" "sfp" {
   value  = "v=spf1 mx include:_spf.porkbun.com ~all"
   ttl    = 300
 
-}
-
-resource "digitalocean_record" "mx1" {
-  domain   = digitalocean_domain.leoconforti_us.name
-  type     = "MX"
-  name     = "@"
-  value    = "fwd1.porkbun.com"
-  priority = 10
-  ttl      = 600
-}
-
-resource "digitalocean_record" "mx2" {
-  domain   = digitalocean_domain.leoconforti_us.name
-  type     = "MX"
-  name     = "@"
-  value    = "fwd2.porkbun.com"
-  priority = 20
-  ttl      = 600
 }
