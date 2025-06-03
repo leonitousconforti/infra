@@ -13,6 +13,13 @@ resource "digitalocean_droplet" "gateway_ams3" {
   vpc_uuid      = data.digitalocean_vpc.ltgk-internal-ams3.id
 }
 
+resource "digitalocean_project_resources" "ltgk_net_project_ams3_gateway" {
+  project = data.digitalocean_project.project.id
+  resources = [
+    digitalocean_droplet.gateway_ams3[0].urn,
+  ]
+}
+
 resource "digitalocean_reserved_ip" "gateway_ams3_reserved_ip" {
   region     = digitalocean_droplet.gateway_ams3[0].region
   droplet_id = digitalocean_droplet.gateway_ams3[0].id
