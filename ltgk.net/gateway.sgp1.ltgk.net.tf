@@ -20,8 +20,8 @@ resource "digitalocean_droplet" "gateway_sgp1" {
 }
 
 resource "digitalocean_reserved_ip" "gateway_sgp1_reserved_ip" {
-  region     = digitalocean_droplet.gateway_sgp1.region
-  droplet_id = digitalocean_droplet.gateway_sgp1.id
+  region     = digitalocean_droplet.gateway_sgp1[0].region
+  droplet_id = digitalocean_droplet.gateway_sgp1[0].id
 }
 
 resource "digitalocean_record" "gateway_sgp1_A_record" {
@@ -36,6 +36,6 @@ resource "digitalocean_record" "gateway_sgp1_AAAA_record" {
   domain = digitalocean_domain.ltgk_net.name
   name   = "gateway.sgp1"
   type   = "AAAA"
-  value  = digitalocean_droplet.gateway_sgp1.ipv6_address
+  value  = digitalocean_droplet.gateway_sgp1[0].ipv6_address
   ttl    = 3600
 }

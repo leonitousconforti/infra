@@ -20,8 +20,8 @@ resource "digitalocean_droplet" "gateway_ams3" {
 }
 
 resource "digitalocean_reserved_ip" "gateway_ams3_reserved_ip" {
-  region     = digitalocean_droplet.gateway_ams3.region
-  droplet_id = digitalocean_droplet.gateway_ams3.id
+  region     = digitalocean_droplet.gateway_ams3[0].region
+  droplet_id = digitalocean_droplet.gateway_ams3[0].id
 }
 
 resource "digitalocean_record" "gateway_ams3_A_record" {
@@ -36,6 +36,6 @@ resource "digitalocean_record" "gateway_ams3_AAAA_record" {
   domain = digitalocean_domain.ltgk_net.name
   name   = "gateway.ams3"
   type   = "AAAA"
-  value  = digitalocean_droplet.gateway_ams3.ipv6_address
+  value  = digitalocean_droplet.gateway_ams3[0].ipv6_address
   ttl    = 3600
 }

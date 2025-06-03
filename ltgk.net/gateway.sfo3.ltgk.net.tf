@@ -20,8 +20,8 @@ resource "digitalocean_droplet" "gateway_sfo3" {
 }
 
 resource "digitalocean_reserved_ip" "gateway_sfo3_reserved_ip" {
-  region     = digitalocean_droplet.gateway_sfo3.region
-  droplet_id = digitalocean_droplet.gateway_sfo3.id
+  region     = digitalocean_droplet.gateway_sfo3[0].region
+  droplet_id = digitalocean_droplet.gateway_sfo3[0].id
 }
 
 resource "digitalocean_record" "gateway_sfo3_A_record" {
@@ -36,6 +36,6 @@ resource "digitalocean_record" "gateway_sfo3_AAAA_record" {
   domain = digitalocean_domain.ltgk_net.name
   name   = "gateway.sfo3"
   type   = "AAAA"
-  value  = digitalocean_droplet.gateway_sfo3.ipv6_address
+  value  = digitalocean_droplet.gateway_sfo3[0].ipv6_address
   ttl    = 3600
 }
