@@ -42,7 +42,7 @@ resource "digitalocean_droplet" "gateway-sfo3" {
     inline = [
       "set -e",
       "cloud-init status --wait > /dev/null",
-      # "cloud-init clean --reboot --logs"
+      "shutdown -r now"
     ]
   }
 }
