@@ -27,7 +27,6 @@ resource "digitalocean_droplet" "gateway-ams3" {
       "while pgrep -x apt > /dev/null; do sleep 1; done;",
       "DEBIAN_FRONTEND=noninteractive apt-get update",
       "DEBIAN_FRONTEND=noninteractive apt-get upgrade -y",
-      "DEBIAN_FRONTEND=noninteractive apt-get install -y wireguard",
       "sysctl -w net.ipv4.ip_forward=1",
       "echo 'net.ipv4.ip_forward=1' >> /etc/sysctl.conf",
       "iptables -t nat -A POSTROUTING -s ${digitalocean_vpc.vpc-ltgk-internal-ams3.ip_range} -o eth0 -j MASQUERADE",
