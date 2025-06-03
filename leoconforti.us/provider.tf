@@ -4,6 +4,11 @@ terraform {
       source  = "jianyuan/porkbun"
       version = "0.1.0"
     }
+
+    digitalocean = {
+      source  = "digitalocean/digitalocean"
+      version = "~> 2.0"
+    }
   }
 
   backend "s3" {
