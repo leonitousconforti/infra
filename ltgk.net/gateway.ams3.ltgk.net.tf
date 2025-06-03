@@ -1,8 +1,8 @@
 resource "digitalocean_droplet" "gateway_ams3" {
   count  = 1
   region = "ams3"
-  size   = "s-1vcpu-1gb"
   image  = "ubuntu-24-04-x64"
+  size   = "s-1vcpu-512mb-10gb"
   name   = "gateway.ams3.ltgk.net"
 
   ipv6          = true
@@ -11,12 +11,6 @@ resource "digitalocean_droplet" "gateway_ams3" {
   tags          = ["gateway"]
   ssh_keys      = [data.digitalocean_ssh_key.personal.id]
   vpc_uuid      = data.digitalocean_vpc.ltgk-internal-ams3.id
-
-  lifecycle {
-    ignore_changes = [
-      tags
-    ]
-  }
 }
 
 resource "digitalocean_reserved_ip" "gateway_ams3_reserved_ip" {
