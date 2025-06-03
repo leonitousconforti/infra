@@ -12,6 +12,10 @@ resource "digitalocean_droplet" "gateway-sgp1" {
   ssh_keys      = [data.digitalocean_ssh_key.personal.id]
   vpc_uuid      = digitalocean_vpc.vpc-ltgk-internal-sgp1.id
 
+  depends_on = [
+    digitalocean_vpc.vpc-ltgk-internal-sgp1,
+  ]
+
   connection {
     timeout = "2m"
     type    = "ssh"
