@@ -44,7 +44,7 @@ resource "digitalocean_droplet" "idm_droplet" {
   tags          = ["freeipa", "idm", "dns"]
   ssh_keys      = [data.digitalocean_ssh_key.personal.id]
   vpc_uuid      = digitalocean_vpc.vpc_ltgk_internal[each.key].id
-  user_data     = data.cloudinit_config.gateway_cloud_init_config[each.key].rendered
+  user_data     = data.cloudinit_config.idm_cloud_init_config[each.key].rendered
 
   depends_on = [
     digitalocean_droplet.gateway_droplet,
