@@ -1,4 +1,4 @@
-resource "porkbun_domain_nameservers" "ltgk_net_nameservers" {
+resource "porkbun_domain_nameservers" "porkbun-nameservers" {
   domain = "ltgk.net"
 
   nameservers = [
