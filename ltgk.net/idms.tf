@@ -8,23 +8,14 @@ data "cloudinit_config" "idm_cloud_init_config" {
     filename     = "cloud.conf"
     content = yamlencode(
       {
-        fqdn     = "idm01-primary.${each.key}.internal.ltgk.net",
-        hostname = "idm01-primary.${each.key}.internal.ltgk.net",
-        network = {
-          version = 2
-          ethernets = {
-            ens3 = {
-              ipv6 = {
-                method   = "auto"
-                may_fail = true
-              }
-            }
-          }
-        }
+        fqdn            = "idm01-primary.${each.key}.internal.ltgk.net",
+        hostname        = "idm01-primary.${each.key}.internal.ltgk.net",
         package_update  = true,
         package_upgrade = true,
         packages = [
-          "firewalld"
+          "firewalld",
+          "freeipa-server",
+          "freeipa-server-dns",
         ],
       }
     )
@@ -63,11 +54,22 @@ resource "digitalocean_droplet" "idm_droplet" {
   provisioner "remote-exec" {
     inline = [
       "set -e",
-      "cloud-init status --wait > /dev/null",
+      "cloud-init status --wait > /dev/null || true",
+      # Connect to the vpc gateway droplet
       "ORIGINAL_PUBLIC_GATEWAY_IP=$(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/gateway)",
-      "ip route add 169.254.169.254 via $ORIGINAL_PUBLIC_GATEWAY_IP dev eth0",
-      "sed -i '/^route1=0.0.0.0\\/0,[0-9.]\\+/s/^/# /' /etc/NetworkManager/system-connections/cloud-init-ens3.nmconnection",
-      "echo 'route1=0.0.0.0/0,${digitalocean_droplet.gateway_droplet[each.key].ipv4_address_private}' >> /etc/NetworkManager/system-connections/cloud-init-ens4.nmconnection",
+      "ip route add 169.254.169.254 via $ORIGINAL_PUBLIC_GATEWAY_IP dev ens3",
+      "nmcli connection modify 'cloud-init ens3' ipv4.routes ''",
+      "nmcli connection modify 'cloud-init ens4' ipv4.routes '0.0.0.0/0 ${digitalocean_droplet.gateway_droplet[each.key].ipv4_address_private}'",
+      # disable ipv6
+      "nmcli connection modify 'cloud-init ens3' ipv6.method 'auto'",
+      "nmcli connection modify 'cloud-init ens3' ipv6.may-fail 'true'",
+      "nmcli connection modify 'cloud-init ens3' ipv6.routes ''",
+      "nmcli connection modify 'cloud-init ens3' ipv6.addresses ''",
+      # Setup firewall for freeipa
+      "systemctl start firewalld",
+      "systemctl enable firewalld",
+      "firewall-cmd --add-service=freeipa-ldap --add-service=freeipa-ldaps --add-service=dns",
+      "firewall-cmd --add-service=freeipa-ldap --add-service=freeipa-ldaps --add-service=dns --permanent",
       "shutdown -r now"
     ]
   }
