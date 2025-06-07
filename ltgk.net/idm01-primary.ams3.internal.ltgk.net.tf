@@ -48,7 +48,7 @@ resource "digitalocean_droplet" "idm_droplet" {
 
   depends_on = [
     digitalocean_droplet.gateway_droplet,
-    time_sleep.wait-30-seconds-to-destroy-vpcs
+    time_sleep.wait_to_destroy_vpcs
   ]
 
   connection {
