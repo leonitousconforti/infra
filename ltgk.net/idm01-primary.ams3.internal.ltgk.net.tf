@@ -47,7 +47,7 @@ resource "digitalocean_droplet" "idm_droplet" {
   user_data     = data.cloudinit_config.gateway_cloud_init_config[each.key].rendered
 
   depends_on = [
-    digitalocean_droplet.gateway_droplet[each.key],
+    digitalocean_droplet.gateway_droplet,
     time_sleep.wait-30-seconds-to-destroy-vpcs
   ]
 
