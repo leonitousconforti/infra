@@ -5,6 +5,7 @@
         "dflook",
         "dmarc",
         "domainkey",
+        "ethernets",
         "firewalld",
         "freeipa",
         "jianyuan",

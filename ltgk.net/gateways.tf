@@ -67,6 +67,8 @@ data "cloudinit_config" "gateway_cloud_init_config" {
     filename     = "cloud.conf"
     content = yamlencode(
       {
+        fqdn            = "gateway.${each.key}.ltgk.net",
+        hostname        = "gateway.${each.key}.ltgk.net",
         package_update  = true,
         package_upgrade = true,
         packages = [
