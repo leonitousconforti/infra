@@ -70,7 +70,7 @@ resource "digitalocean_droplet" "idm_droplet" {
       "systemctl enable firewalld",
       "firewall-cmd --add-service=freeipa-ldap --add-service=freeipa-ldaps --add-service=dns",
       "firewall-cmd --add-service=freeipa-ldap --add-service=freeipa-ldaps --add-service=dns --permanent",
-      "shutdown -r now"
+      "shutdown -r +1"
     ]
   }
 }
