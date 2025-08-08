@@ -72,7 +72,6 @@ data "cloudinit_config" "gateway_cloud_init_config" {
         package_update  = true,
         package_upgrade = true,
         packages = [
-          "wireguard",
           "iptables-persistent",
           "ca-certificates",
           "curl",
@@ -166,4 +165,3 @@ resource "digitalocean_record" "gateway_AAAA_record" {
   value    = digitalocean_droplet.gateway_droplet[each.key].ipv6_address
   ttl      = 3600
 }
-
