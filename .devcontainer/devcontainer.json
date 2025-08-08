@@ -5,6 +5,7 @@
 
     "features": {
         "ghcr.io/devcontainers/features/git:1": {},
+        "ghcr.io/devcontainers/features/node:1": {},
         "ghcr.io/devcontainers/features/terraform:1": {},
         "ghcr.io/devcontainers/features/common-utils:2": {}
     },
