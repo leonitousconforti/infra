@@ -11,3 +11,4 @@ then
 ```
 terraform apply -config="../digitalocean.tfvars" -config="../porkbun.tfvars"
 ```
+from any one of the sub-projects
