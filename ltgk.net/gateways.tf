@@ -115,7 +115,6 @@ resource "digitalocean_droplet" "gateway_droplet" {
     time_sleep.wait_to_destroy_vpcs
   ]
 
-
   connection {
     timeout = "2m"
     type    = "ssh"
