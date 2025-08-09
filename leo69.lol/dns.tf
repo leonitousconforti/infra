@@ -32,3 +32,11 @@ resource "digitalocean_project_resources" "leo69_lol_project" {
 #   value  = "ns3.digitalocean.com."
 #   ttl    = 1800
 # }
+
+resource "digitalocean_record" "test" {
+  domain = digitalocean_domain.leo69_lol.name
+  type   = "TXT"
+  name   = "test"
+  value  = "test"
+  ttl    = 300
+}
