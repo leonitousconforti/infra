@@ -4,8 +4,8 @@ data "cloudinit_config" "idm_cloud_init_config" {
   base64_encode = false
 
   part {
-    content_type = "text/cloud-config"
     filename     = "cloud.conf"
+    content_type = "text/cloud-config"
     content = yamlencode(
       {
         fqdn            = "idm01-primary.${each.key}.internal.ltgk.net",
