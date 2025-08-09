@@ -73,5 +73,4 @@ resource "digitalocean_record" "sfp" {
   name   = "@"
   value  = "v=spf1 mx include:_spf.porkbun.com ~all"
   ttl    = 300
-
 }
