@@ -32,11 +32,3 @@ resource "digitalocean_project_resources" "ltgk_page_project" {
 #   value  = "ns3.digitalocean.com."
 #   ttl    = 1800
 # }
-
-resource "digitalocean_record" "test" {
-  domain = digitalocean_domain.ltgk_page.name
-  type   = "TXT"
-  name   = "test"
-  value  = "test"
-  ttl    = 300
-}
