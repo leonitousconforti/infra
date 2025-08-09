@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        path: ["leo69.lol", "leoconforti.us", "ltgk.net", "ltgk.page"]
+        path: ["leo69.lol", "leoconforti.us", "ltgk.page"]
     runs-on: ubuntu-latest
     name: Validate terraform configuration
     env:
@@ -33,7 +33,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        path: ["leo69.lol", "leoconforti.us", "ltgk.net", "ltgk.page"]
+        path: ["leo69.lol", "leoconforti.us", "ltgk.page"]
     runs-on: ubuntu-latest
     name: Check formatting of terraform files
     env:
