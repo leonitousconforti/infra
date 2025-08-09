@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        path: ["leo69.lol", "leoconforti.us", "ltgk.page"]
+        path: ["leo69.lol", "leoconforti.us", "ltgk.net", "ltgk.page"]
     runs-on: ubuntu-latest
     name: Create a plan for an example terraform configuration
     env:
