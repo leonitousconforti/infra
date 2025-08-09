@@ -74,11 +74,3 @@ resource "digitalocean_record" "sfp" {
   value  = "v=spf1 mx include:_spf.porkbun.com ~all"
   ttl    = 300
 }
-
-resource "digitalocean_record" "test" {
-  domain = digitalocean_domain.leoconforti_us.name
-  type   = "TXT"
-  name   = "test"
-  value  = "test"
-  ttl    = 300
-}
